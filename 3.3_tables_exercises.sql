@@ -9,16 +9,17 @@ DESCRIBE employees;
 -- int, date, carchar, enum
 
 -- which table(s) do you think contain a numeric type column?
--- emp_no
+describe salaries;
 
 -- contain a string type column?
--- first_name, last_name, gender
+describe titles;
+
 
 -- contain a data type column?
--- birth_date, hire_date
+describe departments;
 
 -- what is relationship between employees and departments? 
--- the employees and departments tables create the table dept_emp
+-- the employees and departments tables create the table dept_emp, but no direct relationship
 
 -- show the SQL that created the dept_manager table
 SHOW CREATE TABLE dept_manager;
