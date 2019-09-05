@@ -99,4 +99,10 @@ ON d.dept_no = de.dept_no
 JOIN salaries AS s
 ON s.emp_no = de.emp_no
 
-ORDER BY d.dept_name DESC;
+WHERE de.to_date = "9999-01-01" AND s.to_date = "9999-01-01"
+GROUP BY AVG(s.salary)
+ORDER BY d.dept_name DESC
+LIMIT 1;
+
+--
+
