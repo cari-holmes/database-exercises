@@ -1,9 +1,12 @@
-USE bayes_818;
+use bayes_818;
 
 CREATE TEMPORARY TABLE employees_with_departments AS
-SELECT * FROM employees.employees;
+SELECT emp_no, first_name, last_name, dept_no, dept_name
+FROM employees.employees
+JOIN employees.dept_emp USING(emp_no)
+JOIN employees.departments USING(dept_no);
 
-SELECT * from employees_with_departments;
+SELECT * FROM employees_with_departments;
 
 ALTER TABLE employees_with_departments ADD full_name VARCHAR(30);
 
@@ -15,13 +18,14 @@ SET full_name = CONCAT(first_name, " ", last_name);
 ALTER TABLE employees_with_departments DROP COLUMN first_name;
 ALTER TABLE employees_with_departments DROP COLUMN last_name;
 
--- 
 
-CREATE TEMPORARY TABLE pay 
+CREATE TEMPORARY TABLE pay AS
 SELECT * FROM sakila.payment;
 
 SELECT * from pay;
 
-ALTER TABLE pay ADD amount 
+ALTER TABLE pay ADD cent_amount INT UNSIGNED; 
+
 UPDATE pay
-SET amount = (amount * 100); 
+SET cent_amount = pay.amount * 100; 
+
