@@ -3,10 +3,10 @@
 -- 3. Use employees database
 use employees;
 
--- 4h List all tables in the daabase
+-- 4. List all tables in the daabase
 show tables;
 
--- 5m What are the different data types present on this table?
+-- 5. What are the different data types present on this table?
 DESCRIBE employees;
 -- int, date, varchar, enum
 
