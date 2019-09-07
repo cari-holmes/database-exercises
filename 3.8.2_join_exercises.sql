@@ -1,28 +1,36 @@
+-- Objective: Understand what it means to join tables, the difference between a left and right join and how to join multiple tables to a query
 
+-- 1. Use join_example_db
+USE join_example_db;
 SELECT * FROM users;
 SELECT * FROM roles;
 
-SELECT users.name AS users, roles.name AS roles 
-FROM users 
-JOIN roles 
-ON users.role_id=role_id;
-
-SELECT users.name AS user_name, roles.name AS role_name 
+-- 2. Use JOIN, LEFT JOIN and RIGHT JOIN to combine results of the users and roles tables
+-- INNER JOIN
+SELECT users.id, users.name, users.email, roles.name as roles 
 FROM users
-LEFT JOIN roles 
-ON users.role_id = roles.id;
+JOIN roles
+ON users.id=roles.id;
 
-SELECT users.name AS usr_name, roles.name AS role_name 
+-- LEFT JOIN
+SELECT users.id, users.name, users.email, roles.name as roles 
 FROM users
-RIGHT JOIN roles 
-ON users.role_id = roles.id;
+LEFT JOIN roles
+ON users.id=roles.id;
+
+-- RIGHT JOIN
+SELECT users.id, users.name, users.email, roles.name as roles 
+FROM users
+RIGHT JOIN roles
+ON users.id=roles.id;
 
 --
 
+-- 1. Use employees database
 USE employees;
  
-
-SELECT CONCAT(e.first_name, ' ', e.last_name) AS department_manager, d.dept_name AS department_name
+-- 2. Write a query that shows each department along with the name of the current manager for that department
+SELECT d.dept_name AS Department_Name, CONCAT(e.first_name, ' ', e.last_name) AS Department_Manager
 FROM employees AS e
 
 JOIN dept_manager AS dm
@@ -33,8 +41,7 @@ ON d.dept_no = dm.dept_no
 
 WHERE dm.to_date = '9999-01-01' ORDER BY d.dept_name;
 
--- 
-
+-- 3. Find the name of all departments currently manages by women
 SELECT d.dept_name AS department_name, CONCAT(e.first_name, ' ', e.last_name) AS department_manager 
 FROM employees AS e
 
@@ -46,8 +53,7 @@ ON d.dept_no = dm.dept_no
 
 WHERE dm.to_date = '9999-01-01' AND gender = 'F' ORDER BY d.dept_name;
 
---
-
+-- 4. Find the curent titles of employees currently working in the Customer Service department
 SELECT title, COUNT(*) FROM titles
 
 JOIN dept_emp AS de
@@ -59,8 +65,7 @@ ON d.dept_no = de.dept_no
 WHERE de.to_date = "9999-01-01" AND titles.to_date = "9999-01-01" AND dept_name = "customer service"
 GROUP BY title;
 
--- 
-
+-- 5. Find the current salary of all current manager
 SELECT dept_name AS department_name, CONCAT(e.first_name, ' ', e.last_name) AS name, s.salary AS salary
 FROM dept_manager AS dm
 
@@ -76,8 +81,7 @@ ON d.dept_no = dm.dept_no
 WHERE dm.to_date = "9999-01-01" AND s.to_date = "9999-01-01" ORDER BY dept_name ASC
 ;
 
---
-
+-- 6. Find the number of employees in each department
 SELECT de.dept_no, d.dept_name AS dept_name, COUNT(*) AS num_employees
 FROM dept_emp AS de
 
@@ -90,8 +94,7 @@ ON e.emp_no = de.emp_no
 WHERE de.to_date = '9999-01-01' 
 GROUP BY de.dept_no, d.dept_name;
 
---
--- --
+-- 7. Which department has the highest average salary?
 SELECT d.dept_name AS dept_name, AVG(s.salary) AS average_salary
 FROM dept_emp AS de
 
@@ -102,16 +105,11 @@ JOIN salaries AS s
 ON s.emp_no = de.emp_no
 
 WHERE de.to_date = "9999-01-01" AND s.to_date = "9999-01-01"
-GROUP BY AVG(s.salary)
+GROUP BY d.dept_name
 ORDER BY average_salary DESC
 LIMIT 1;
 
--- 
--- --
-SELECT e.first_name, e.last_name, s.salary, d.dept_name 
-FROM departments AS d
+-- 8. Who is the highest paid employee in the Marketing department?
+SELECT e.first_name, e.last_name 
+FROM employees AS e;
 
-JOIN dept_manager AS dm 
-ON dm.dept_no=d.dept_no
-
-JOIN 
