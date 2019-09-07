@@ -1,25 +1,26 @@
--- use employyes database
+-- Objective: Understand how SQL tables work.
+
+-- 3. Use employees database
 use employees;
 
--- list all tables in the daabase
+-- 4h List all tables in the daabase
 show tables;
 
--- what are different data types present on this table?
+-- 5m What are the different data types present on this table?
 DESCRIBE employees;
--- int, date, carchar, enum
+-- int, date, varchar, enum
 
--- which table(s) do you think contain a numeric type column?
+-- 6. Which table(s) do you think contain a numeric type column?
 describe salaries;
 
--- contain a string type column?
+-- 7. Which table(s) contain a string type column?
 describe titles;
 
-
--- contain a data type column?
+-- 8. Which table(s) contain a data type column?
 describe departments;
 
--- what is relationship between employees and departments? 
--- the employees and departments tables create the table dept_emp, but no direct relationship
+-- 9. What is relationship between employees and departments? 
+--  The employees and departments tables create the table dept_emp, but there is no direct relationship.
 
--- show the SQL that created the dept_manager table
+-- 10. Show the SQL that created the dept_manager table.
 SHOW CREATE TABLE dept_manager;
