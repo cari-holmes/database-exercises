@@ -34,8 +34,19 @@ SELECT * FROM sakila.payment;
 
 SELECT * from pay;
 
+-- Turn the amount column from a float to an integer, ex. 1.99 into 199
 ALTER TABLE pay ADD cent_amount INT UNSIGNED; 
 
+SELECT * from pay;
+
 UPDATE pay
-SET cent_amount = pay.amount * 100; 
+SET cent_amount = pay.amount * 100;
+
+-- ALTER TABLE pay DROP COLUMN amount
+
+-- 3. Find out how the average pay in each department compares to the overall average pay. In order to make the comparison easier, you should use the Z-score for salaries. In terms of salary, what is the best department to work for? The worst?
+
+SELECT d.dept_name AS dept_name, s.salary AS salary_z_score
+FROM departments AS d
+
 
