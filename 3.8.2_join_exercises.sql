@@ -142,3 +142,24 @@ ON d.dept_no=dm.dept_no
 WHERE dm.to_date = '9999-01-01' AND s.to_date = '9999-01-01' 
 ORDER BY s.salary DESC
 LIMIT 1;
+
+-- 10. Bonus - Find the names of all current employees, their department name, and their current manager's name
+-- (Rework to show all employees)
+SELECT CONCAT(e.first_name, " ", e.last_name) AS Employee_Name, d.dept_name AS Department_Name, CONCAT(e.first_name, " ", e.last_name) AS Manager_Name
+FROM employees AS e
+
+JOIN dept_emp AS de
+ON de.emp_no=e.emp_no
+
+JOIN dept_manager AS dm
+ON dm.emp_no=e.emp_no
+
+JOIN departments AS d
+ON d.dept_no=dm.dept_no
+
+WHERE de.to_date= '9999-01-01' AND dm.to_date= '9999-01-01';
+
+-- 11. Bonus Find the highest paid employee in each department
+SELECT CONCAT(e.first_name, " ", e.last_name) AS Employee_name, d.dept_name AS Department, s.salary AS Salary
+FROM employees AS e
+
