@@ -110,6 +110,35 @@ ORDER BY average_salary DESC
 LIMIT 1;
 
 -- 8. Who is the highest paid employee in the Marketing department?
-SELECT e.first_name, e.last_name 
-FROM employees AS e;
+SELECT e.first_name AS first_name, e.last_name AS last_name
+FROM employees AS e
 
+JOIN dept_emp AS de
+ON de.emp_no=e.emp_no
+
+JOIN salaries AS s
+ON s.emp_no=e.emp_no
+
+JOIN departments AS d
+ON d.dept_no=de.dept_no
+
+WHERE d.dept_no= 'd001' AND s.to_date= '9999-01-01' AND de.to_date= '9999-01-01'
+ORDER BY s.salary DESC
+LIMIT 1;
+
+-- 9. Which current department manager has the highest salary?
+SELECT e.first_name AS first_name, e.last_name AS last_name, s.salary AS salary, d.dept_name AS dept_name
+FROM employees AS e
+
+JOIN dept_manager AS dm
+ON dm.emp_no=e.emp_no
+
+JOIN salaries AS s
+ON s.emp_no=e.emp_no
+
+JOIN departments AS d
+ON d.dept_no=dm.dept_no
+
+WHERE dm.to_date = '9999-01-01' AND s.to_date = '9999-01-01' 
+ORDER BY s.salary DESC
+LIMIT 1;
