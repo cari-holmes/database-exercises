@@ -21,21 +21,14 @@ WHERE emp_no IN (
 	GROUP BY title;
 	
 -- 3. How many people in the employees table are no longer working for the company?
-SELECT COUNT(emp_no) FROM employees
+SELECT COUNT(emp_no) AS current_employees FROM employees
 WHERE emp_no IN (
 	SELECT emp_no
 	FROM dept_emp
-	WHERE NOT to_date = "9999-01-01"
-	GROUP BY emp_no);
+	GROUP BY emp_no
+	HAVING MAX(to_date) < NOW())
+	;
 
--- -- --	
-SELECT COUNT(*)
-FROM employees
-WHERE emp_no IN (
-SELECT emp_no
-FROM dept_emp
-GROUP BY emp_no
-HAVING MAX(to_date)<NOW());
 	
 -- 4. Find all the current department managers that are female
 SELECT first_name, last_name FROM employees 
@@ -58,23 +51,16 @@ WHERE to_date="9999-01-01" AND salary > (
 	FROM salaries
 	);
 	
--- 6. How many current salaries are within one standard deviation of the hightest salary?
+-- 6. How many current salaries are within one standard deviation of the hightest salary? ***
 SELECT MAX(salary) FROM salaries;
 
-SELECT COUNT(*), COUNT(*)/(SELECT COUNT(*) * 100 WHERE to_date>NOW()) FROM salaries 
+SELECT COUNT(*) AS salaries, COUNT(*)/(SELECT COUNT(*) * 100 WHERE to_date>NOW()) AS percent FROM salaries 
 
 WHERE to_date="9999-01-01" AND salary > (
 	SELECT MAX(salary) - STD(salary) 
 	FROM salaries
 	);
-	
--- 
-first_name, last_name, salary
-FROM employees AS e
 
-JOIN salaries AS s
-ON s.emp_no = e.emp_no
---
 
 -- Bonus 1
 SELECT dept_name FROM departments AS d
