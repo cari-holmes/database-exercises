@@ -85,10 +85,9 @@ WHERE name != localname;
 SELECT name, LifeExpectancy FROM country
 WHERE name = "Solomon Islands";
 
--- ***
 SELECT COUNT(name) AS Less_LifeExpectancy FROM country
 WHERE LifeExpectancy < 71.3
-GROUP BY name;
+;
 
 -- Bonus What state is city Tafuna located in?
 SELECT district FROM city
@@ -150,3 +149,5 @@ SELECT last_name, COUNT(last_name) AS count FROM actor
 
 GROUP BY last_name
 ORDER BY count DESC;
+
+
