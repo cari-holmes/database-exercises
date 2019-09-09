@@ -81,15 +81,42 @@ ORDER BY life_expectancy ASC;
 SELECT name, LocalName FROM country
 WHERE name != localname;
 
--- How many countries have a life expectancy less than x?
+-- Bonus How many countries have a life expectancy less than Solomon Islands?
+SELECT name, LifeExpectancy FROM country
+WHERE name = "Solomon Islands";
 
--- What state is city x located in?
+-- ***
+SELECT COUNT(name) AS Less_LifeExpectancy FROM country
+WHERE LifeExpectancy < 71.3
+GROUP BY name;
 
--- What region of the world is city x located in?
+-- Bonus What state is city Tafuna located in?
+SELECT district FROM city
+WHERE name = "Tafuna";
 
--- What country (use the human readable name) city x located in?
+-- Bonus What region of the world is city Tafuna located in?
+SELECT region FROM country AS c
 
--- What is the life expectancy in city x?
+JOIN city 
+ON city.countrycode=c.Code
+
+WHERE c.code = "ASM" AND city.name = "Tafuna";
+
+-- Bonus What country (use the human readable name) is city Merlo located in?
+SELECT country.name FROM country
+
+JOIN city
+ON city.countrycode = country.code
+
+WHERE country.code = "ARG" AND city.name = "Merlo";
+
+-- Bonus What is the life expectancy in city Zwolle?
+SELECT city.name, LifeExpectancy FROM country
+
+JOIN city
+ON city.countrycode = country.code
+
+WHERE country.code = "NLD" AND city.name = "Zwolle";
 
 USE sakila;
 
@@ -115,7 +142,7 @@ WHERE country IN ('Afghanistan', 'Bangladesh', 'China');
 
 -- 6. List the last names of all the actors, as well as how many actors have taht last name.
 SELECT last_name, COUNT(last_name) AS count FROM actor
-GROUP BY last_name;
+GROUP BY last_name
+ORDER BY count DESC;
 
 -- 7. List last names of actors and the number of actors who have that last name, but only for names that are shared by at least two actors.
-
