@@ -149,5 +149,47 @@ SELECT last_name, COUNT(last_name) AS count FROM actor
 
 GROUP BY last_name
 ORDER BY count DESC;
+-- ***
+
+-- 8. You cannot locate the schema of the address table. Which query would you use to recreate it?
 
 
+-- 9. Use JOIN to display the first and last names, as well as the address, of each staff member.
+SELECT first_name, last_name, a.address FROM staff AS s
+
+JOIN address AS a USING(address_id);
+
+-- 10. Use JOIN to display the total amount rung up by each staff member in August of 2005.
+SELECT first_name, last_name, COUNT(r.staff_id) AS total_rung_up FROM staff
+
+JOIN rental AS r USING(staff_id)
+WHERE rental_date LIKE "%2005-%-08%" 
+GROUP BY staff_id;
+
+-- 11. List each film and the number of actors who are listed for that film.
+SELECT title, COUNT(actor_id) AS num_of_actors FROM film
+JOIN film_actor as fa USING (film_id)
+GROUP BY title;
+
+-- 12. How many copies of the film Hunchback Impossible exist in the inventory system?
+SELECT title, COUNT(title) AS count FROM film
+JOIN inventory USING (film_id)
+WHERE film.title = "Hunchback Impossible"
+GROUP BY title;
+
+-- 13. The music Queen and Kris Kristofferson have seen an unlikely reasurgence. As an unintended consequence, films starting with the letters K and Q have also soared in popularity. Use subqueries to display the titles of movies starting with the letters K and Q whose language is English.
+SELECT title FROM film 
+WHERE title LIKE 'k%' OR title LIKE 'q%' AND language_id IN (
+	SELECT language_id FROM language
+	WHERE name = "English");
+	
+-- 14. Use subqueries to display all actors who appear in the film Alone Trip.	
+SELECT CONCAT(first_name, " ", last_name) AS full_name FROM actor
+WHERE actor_id IN (
+	SELECT actor_id FROM film_actor
+	WHERE film_id IN (
+		SELECT film_id FROM film
+		WHERE title = "Alone Trip"
+	));
+
+-- 15. You want to run an email marketing campaign in Canada, for which you will need the names and email address of all Canadian customers. 
