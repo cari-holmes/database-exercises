@@ -146,10 +146,9 @@ ORDER BY count DESC;
 
 -- 7. List last names of actors and the number of actors who have that last name, but only for names that are shared by at least two actors.
 SELECT last_name, COUNT(last_name) AS count FROM actor 
-
 GROUP BY last_name
+HAVING COUNT(last_name) > 1
 ORDER BY count DESC;
--- ***
 
 -- 8. You cannot locate the schema of the address table. Which query would you use to recreate it?
 
@@ -168,8 +167,9 @@ GROUP BY staff_id;
 
 -- 11. List each film and the number of actors who are listed for that film.
 SELECT title, COUNT(actor_id) AS num_of_actors FROM film
-JOIN film_actor as fa USING (film_id)
-GROUP BY title;
+LEFT JOIN film_actor as fa USING (film_id)
+GROUP BY title
+ORDER BY num_of_actors ASC;
 
 -- 12. How many copies of the film Hunchback Impossible exist in the inventory system?
 SELECT title, COUNT(title) AS count FROM film
@@ -193,3 +193,56 @@ WHERE actor_id IN (
 	));
 
 -- 15. You want to run an email marketing campaign in Canada, for which you will need the names and email address of all Canadian customers. 
+SELECT CONCAT(first_name, " ", last_name) AS full_name, email FROM customer
+
+JOIN address USING (address_id) 
+
+JOIN city USING (city_id)
+
+JOIN country USING (country_id)
+
+WHERE country.country = "Canada";
+
+-- 16. Sales have been lagging among young families, and you wish to target all family movies for a promotion. Identify all movies categorized as family films.
+SELECT title, c.name AS category FROM film
+
+JOIN film_category AS fc
+ON fc.film_id=film.film_id
+
+JOIN category AS c
+ON c.category_id=fc.category_id
+
+WHERE c.name = "Family";
+
+-- 17. Write a query to display how much business, in dollars, each store brought in. ***
+SELECT store_id, SUM(amount) AS dollar_amount FROM payment
+
+JOIN staff USING (staff_id)
+
+GROUP BY store_id;
+
+/* SELECT s.store_id, SUM(p.amount) AS dollar_amount FROM store AS s
+JOIN inventory AS i
+ON i.store_id=s.store_id
+
+JOIN rental AS r
+ON r.inventory_id=i.inventory_id
+
+JOIN payment AS p
+ON p.rental_id=r.rental_id
+
+GROUP BY s.store_id; */
+
+-- 18. Write a query to display for each store its store ID, city and country.
+SELECT s.store_id AS store_id, c.city AS city, cr.country AS country FROM store AS s
+
+JOIN address AS a
+ON a.address_id=s.address_id
+
+JOIN city AS c
+ON c.city_id=a.city_id
+
+JOIN country AS cr
+ON cr.country_id=c.country_id;
+
+-- 19. List the top five genres in gross revenue in descending order. 
