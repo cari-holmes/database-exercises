@@ -78,3 +78,25 @@ GROUP BY continent
 ORDER BY life_expectancy ASC;
 
 -- Bonus Find all the countries whose local name is different from the official name
+SELECT name, LocalName FROM country
+WHERE name != localname;
+
+USE sakila;
+
+-- 1. Display the first and last names in all lowercase of all the actors.
+SELECT LOWER(first_name) AS first_name, LOWER(last_name) AS last_name FROM actor;
+
+-- 2. You need to find the ID number, first name, and last name of an actor, of whom you know only the first name, "Joe". What is one query you could use to obtain this information?
+SELECT actor_id, first_name, last_name FROM actor
+WHERE first_name = "Joe";
+
+-- 3. Find all actors whose last name contains the letters "gen".
+SELECT * FROM actor
+WHERE last_name LIKE "%gen%";
+
+-- 4. Find all actors whose last names contain the letters "li". This time, order the rows by last name and first name, in that order.
+SELECT * FROM actor
+WHERE last_name LIKE "%li%"
+ORDER BY last_name, first_name;
+
+-- 5. Using IN, display the country_id and country colums for the following countries: Afghanistan, Bangladesh, and China.
