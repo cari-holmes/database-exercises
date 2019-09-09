@@ -81,6 +81,16 @@ ORDER BY life_expectancy ASC;
 SELECT name, LocalName FROM country
 WHERE name != localname;
 
+-- How many countries have a life expectancy less than x?
+
+-- What state is city x located in?
+
+-- What region of the world is city x located in?
+
+-- What country (use the human readable name) city x located in?
+
+-- What is the life expectancy in city x?
+
 USE sakila;
 
 -- 1. Display the first and last names in all lowercase of all the actors.
@@ -100,3 +110,12 @@ WHERE last_name LIKE "%li%"
 ORDER BY last_name, first_name;
 
 -- 5. Using IN, display the country_id and country colums for the following countries: Afghanistan, Bangladesh, and China.
+SELECT country_id, country FROM country
+WHERE country IN ('Afghanistan', 'Bangladesh', 'China');
+
+-- 6. List the last names of all the actors, as well as how many actors have taht last name.
+SELECT last_name, COUNT(last_name) AS count FROM actor
+GROUP BY last_name;
+
+-- 7. List last names of actors and the number of actors who have that last name, but only for names that are shared by at least two actors.
+
