@@ -146,3 +146,7 @@ GROUP BY last_name
 ORDER BY count DESC;
 
 -- 7. List last names of actors and the number of actors who have that last name, but only for names that are shared by at least two actors.
+SELECT last_name, COUNT(last_name) AS count FROM actor 
+
+GROUP BY last_name
+ORDER BY count DESC;
