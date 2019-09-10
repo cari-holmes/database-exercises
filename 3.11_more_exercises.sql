@@ -34,6 +34,7 @@ ON s.emp_no=e.emp_no
 WHERE s.to_date = "9999-01-01" AND dm.to_date = "9999-01-01"
 ORDER BY dept_name;
 
+
 USE world;
 
 -- 1. What languages are spoken in Santa Monica?
@@ -117,6 +118,7 @@ ON city.countrycode = country.code
 
 WHERE country.code = "NLD" AND city.name = "Zwolle";
 
+
 USE sakila;
 
 -- 1. Display the first and last names in all lowercase of all the actors.
@@ -150,8 +152,8 @@ GROUP BY last_name
 HAVING COUNT(last_name) > 1
 ORDER BY count DESC;
 
--- 8. You cannot locate the schema of the address table. Which query would you use to recreate it?
-
+-- 8. *** You cannot locate the schema of the address table. Which query would you use to recreate it?
+CREATE TABLE address
 
 -- 9. Use JOIN to display the first and last names, as well as the address, of each staff member.
 SELECT first_name, last_name, a.address FROM staff AS s
@@ -214,14 +216,8 @@ ON c.category_id=fc.category_id
 
 WHERE c.name = "Family";
 
--- 17. Write a query to display how much business, in dollars, each store brought in. ***
-SELECT store_id, SUM(amount) AS dollar_amount FROM payment
-
-JOIN staff USING (staff_id)
-
-GROUP BY store_id;
-
-/* SELECT s.store_id, SUM(p.amount) AS dollar_amount FROM store AS s
+-- 17. Write a query to display how much business, in dollars, each store brought in.
+SELECT s.store_id, SUM(p.amount) AS dollar_amount FROM store AS s
 JOIN inventory AS i
 ON i.store_id=s.store_id
 
@@ -231,7 +227,7 @@ ON r.inventory_id=i.inventory_id
 JOIN payment AS p
 ON p.rental_id=r.rental_id
 
-GROUP BY s.store_id; */
+GROUP BY s.store_id;
 
 -- 18. Write a query to display for each store its store ID, city and country.
 SELECT s.store_id AS store_id, c.city AS city, cr.country AS country FROM store AS s
@@ -264,6 +260,7 @@ GROUP BY c.name
 ORDER BY gross_revenue DESC
 LIMIT 5;
 
+
 -- 1. SELECT Statements
 -- A. SELECT all colums from the actor table.
 SELECT * FROM actor;
@@ -274,6 +271,7 @@ SELECT last_name FROM actor;
 -- C. Select only the following _ columns from the film table.
 SELECT title, description, release_year FROM film;
 
+
 -- 2. DISTINCT Operator
 -- A. SELECT all distinct last names from the actor table.
 SELECT DISTINCT last_name FROM actor;
@@ -283,6 +281,7 @@ SELECT DISTINCT postal_code FROM address;
 
 -- C. Select all distinct ratings from the film table.
 SELECT DISTINCT rating FROM film;
+
 
 -- 3. WHERE Clause
 -- A. Select the title, description, rating, movie length columns from the films table that last 3 hours or longer.
@@ -318,18 +317,20 @@ WHERE password IS NOT NULL;
 SELECT * FROM staff
 WHERE password IS NULL;
 
+
 -- 4. IN Operator
 -- A. Select the phone and district columns from the address table for addresses in California, England, Taipei, or West Java.
 SELECT phone, district FROM address
 WHERE district IN ('California', 'England', 'Taipei', 'West Java');
 
--- B. *** Select the payment id, amount, and payment date columns from the payment table for payments made on 05/25/2005, 05/27/2005, and 05/29/2005. (Use the IN operator and the DATE function, instead of the AND operator as in previous exercises.)
+-- B. Select the payment id, amount, and payment date columns from the payment table for payments made on 05/25/2005, 05/27/2005, and 05/29/2005. (Use the IN operator and the DATE function, instead of the AND operator as in previous exercises.)
 SELECT payment_id, amount, payment_date FROM payment
-WHERE payment_date IN ();
+WHERE DATE(payment_date) IN ('2005-05-25', '2005-05-27', '2005-05-29');
 
 -- C. Select all columns from the film table for films rated G, PG-13 or NC-17.
 SELECT * FROM film
 WHERE rating IN ('G', 'PG-13', 'NC-17');
+
 
 -- 5. BETWEEN Operator
 -- A. Select all columns from the payment table for payments made between midnight 05/25/2005 and 1 second before midnight 05/26/2005.
@@ -354,12 +355,13 @@ WHERE description LIKE '%Boat';
 SELECT * FROM film
 WHERE description LIKE '%Database%' AND length > 180;
 
+
 -- 7. LIMIT Operators
 -- A. Select all columns from the payment table and only include the first 20 rows.
 SELECT * FROM payment
 LIMIT 20;
 
--- B. **Select the payment date and amount columns from the payment table for rows where the payment amount is greater than 5, and only select rows whose zero-based index in the result set is between 1000-2000.
+-- B. Select the payment date and amount columns from the payment table for rows where the payment amount is greater than 5, and only select rows whose zero-based index in the result set is between 1000-2000.
 SELECT payment_date, amount FROM payment
 WHERE amount > 5
 LIMIT 1000 OFFSET 2000;
@@ -367,6 +369,7 @@ LIMIT 1000 OFFSET 2000;
 -- C. Select all columns from the customer table, limiting results to those where the zero-based index is between 101-200
 SELECT * FROM customer 
 LIMIT 101 OFFSET 200;
+
 
 -- 8. ORDER BY Statement
 -- A. Select all columns from the film table and order rows by the length field in ascending order.
@@ -387,6 +390,7 @@ SELECT title, description, special_features, length, rental_duration FROM film
 WHERE rental_duration BETWEEN 5 AND 7 AND special_features = "Behind the scenes" AND length < 120
 ORDER BY length DESC
 LIMIT 10;
+
 
 -- 9. JOINS
 /* A. Select customer first_name/last_name and actor first_name/last_name columns from performing a left join between the customer and actor column on the last_name column in each table. (i.e. customer.last_name = actor.last_name)
@@ -426,6 +430,8 @@ USING (address_id)
 
 LEFT JOIN city AS c
 USING (city_i);
+
+-- 
 
 -- 1. What is the average replacement cost of a film? 
 SELECT AVG(replacement_cost) FROM film;
@@ -485,7 +491,7 @@ GROUP BY name
 ORDER BY total DESC
 LIMIT 1;
 
--- 6. *** Who are the most popular actors (that have appeared in the most films)?
+-- 6. Who are the most popular actors (that have appeared in the most films)?
 SELECT CONCAT(a.first_name, " ", a.last_name) AS actor_name, COUNT(*) AS total FROM actor AS a
 
 JOIN film_actor AS fa
@@ -494,9 +500,9 @@ ON fa.actor_id=a.actor_id
 JOIN film AS f
 ON f.film_id=fa.film_id
 
-GROUP BY actor_name
+GROUP BY a.actor_id
 ORDER BY total DESC
-LIMIT 6;
+LIMIT 5;
 
 -- 7. What are the sales for each store for each month in 2005?
 
