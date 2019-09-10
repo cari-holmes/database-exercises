@@ -46,7 +46,5 @@ SET cent_amount = pay.amount * 100;
 
 -- 3. Find out how the average pay in each department compares to the overall average pay. In order to make the comparison easier, you should use the Z-score for salaries. In terms of salary, what is the best department to work for? The worst?
 
-SELECT d.dept_name AS dept_name, s.salary AS salary_z_score
-FROM departments AS d
-
-
+CREATE TEMPORARY TABLE stdev_salary
+SELECT dept_name, AVG(salary) 
